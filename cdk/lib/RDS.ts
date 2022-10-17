@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { Stack, StackProps, App, Duration, CfnOutput } from "aws-cdk-lib";
 import * as aws_rds from "aws-cdk-lib/aws-rds";
+import * as iam from "aws-cdk-lib/aws-iam";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 
 export class DatabaseProps {
@@ -34,7 +35,7 @@ export class RDS extends Construct {
     //#endregion
 
     const engine = props.engine;
-    const instance = new aws_rds.DatabaseCluster(this, `Database`, {
+    const instance = new aws_rds.DatabaseCluster(this, `DB`, {
       engine,
       defaultDatabaseName: props.dbName,
       instanceProps: {
@@ -53,15 +54,19 @@ export class RDS extends Construct {
 
     //--------------DATABASE PROXY--------------------------
 
-    this.proxy = new aws_rds.DatabaseProxy(this, "Proxy", {
+    this.proxy = new aws_rds.DatabaseProxy(this, "DatabaseProxy", {
       proxyTarget: aws_rds.ProxyTarget.fromCluster(instance),
       secrets: [instance.secret!],
       vpc: props.vpc,
       securityGroups: this.instance.connections.securityGroups,
     });
-    new CfnOutput(this, "proxy-endpoint", {
-      exportName: "proxy-endpoint",
+    new CfnOutput(this, "endpoint", {
+      exportName: "proxy-endpoint2",
       value: this.proxy.endpoint,
     });
+    const role = new iam.Role(this, "DBProxyRole", {
+      assumedBy: new iam.AccountPrincipal(Stack.of(this).account),
+    });
+    this.proxy.grantConnect(role, "admin");
   }
 }

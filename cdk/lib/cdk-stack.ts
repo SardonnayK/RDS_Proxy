@@ -50,6 +50,7 @@ export class ProxyStack extends Stack {
       aws_ec2.Port.allTcp(),
       "Access to DB From Lambda"
     );
+    database.proxy.grantConnect(lambda._handler);
 
     const environmentVariables = {
       SECRET_ARN: database.instance.secret?.secretArn || "",

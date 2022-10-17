@@ -13,14 +13,16 @@ public class ProxyAccessController : ControllerBase
 
     public ProxyAccessController(ILogger<ProxyAccessController> logger, ReadDBContext readDBContext)
     {
+        Console.WriteLine("[README] Controller is constructed");
         this.readDBContext = readDBContext;
         _logger = logger;
     }
 
     [HttpGet(Name = "GetDefaultValues")]
-    public IEnumerable<CustomerModel> Get()
+    public async Task<IActionResult> Get()
     {
+        Console.WriteLine("[README] Controller is being Run");
         var customers = readDBContext.Customers;
-        return customers;
+        return Ok(customers);
     }
 }

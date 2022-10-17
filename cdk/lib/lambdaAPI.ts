@@ -41,7 +41,7 @@ export class LambdaAPI extends Construct {
 
     const handler = new awsLambda.DockerImageFunction(this, "Handler", {
       code: dockerAssetCode,
-      timeout: Duration.minutes(3),
+      timeout: Duration.minutes(1),
       vpc: props.vpc,
       role: lambdaRole,
       logRetention: RetentionDays.ONE_MONTH,
@@ -76,8 +76,8 @@ export class LambdaAPI extends Construct {
     if (props.maxProvisionedConcurrency) {
       const version = this._handler.currentVersion;
 
-      const alias = new awsLambda.Alias(this, `Alias`, {
-        aliasName: "prod",
+      const alias = new awsLambda.Alias(this, `Alias2`, {
+        aliasName: "prod2",
         provisionedConcurrentExecutions: props.maxProvisionedConcurrency,
 
         version,

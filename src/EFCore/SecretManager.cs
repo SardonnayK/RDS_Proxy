@@ -12,6 +12,7 @@ namespace src.EFCore.Configurations.Models
         {
             host ??= this.host;
             var connectionString = $"Server={this.host};Database= {dbname};Uid= {username};Pwd= {password};";
+            Console.WriteLine("[README] Connection string is: {0}", connectionString);
             return connectionString;
         }
     }

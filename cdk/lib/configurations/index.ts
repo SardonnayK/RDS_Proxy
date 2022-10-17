@@ -23,6 +23,5 @@ export const DatabaseProps = {
 export const LambdaProps = {
   dockerFileDir: "Dockerfile",
   memorySize: 256,
-  maxProvisionedConcurrency: 1,
   dataTracing: true,
 };
