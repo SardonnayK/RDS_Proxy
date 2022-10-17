@@ -17,12 +17,13 @@
 - The API is set up to only work with the `eu-central-1` region.
 - If the region is changed, ensure that the instance types is available within the new region [instance](cdk/lib/configurations/index.ts) `line:15`
 - Ensure that the [DBContext](src/EFCore/DBContextInjection.cs) `line:36` uses the correct region.
+- The connection string is built in the [SecretManager](src/EFCore/SecretManager.cs)
 
 # Instructions
 
 - The cdk will deploy an api with a single endpoint. The api makes use of swagger to browse the endpoint. The endpoint retrieves data from a database and returns a list of results. Confirm that the result can be returned after the initial set up.
 
-- Once the results are confirmed update the secret, created by the stack, by changing the `host` value to the Proxy endpoint. The Endpoint should now time out.
+- Once the results are confirmed update the secret manager, created by the stack, by changing the `host` value to the Proxy endpoint. The Endpoint should now time out.
 
 ---
 
