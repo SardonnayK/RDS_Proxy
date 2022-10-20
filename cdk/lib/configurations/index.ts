@@ -10,7 +10,7 @@ export const DatabaseProps = {
   dbName: "proxiedDatabase",
 
   engine: DatabaseClusterEngine.auroraMysql({
-    version: AuroraMysqlEngineVersion.VER_2_10_1,
+    version: AuroraMysqlEngineVersion.VER_2_10_2,
   }),
   instanceType: new ec2.InstanceType("t2.small"),
   subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,

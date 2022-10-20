@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using src.EFCore;
 using src.EFCore.DBContext;
 
@@ -18,8 +19,21 @@ public class ProxyAccessController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "GetDefaultValues")]
-    public async Task<IActionResult> Get()
+    [HttpGet]
+    [Route("Explicitly-Close-Connection")]
+    public async Task<IActionResult> ExpliciteClose()
+    {
+        Console.WriteLine("[README] Controller is being Run");
+        var customers = readDBContext.Customers;
+        Console.WriteLine("[README] Data has been Accessed from the database");
+        readDBContext.Database.CloseConnection();
+        Console.WriteLine("[README] Database connection is closed");
+        return Ok(customers);
+    }
+
+    [HttpGet]
+    [Route("Implicitly-Close-Connection")]
+    public async Task<IActionResult> ImpliciteClose()
     {
         Console.WriteLine("[README] Controller is being Run");
         var customers = readDBContext.Customers;
