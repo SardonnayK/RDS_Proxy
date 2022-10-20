@@ -23,6 +23,7 @@ public class ProxyAccessController : ControllerBase
     {
         Console.WriteLine("[README] Controller is being Run");
         var customers = readDBContext.Customers;
+        Console.WriteLine("[README] Data has been Accessed from the database");
         return Ok(customers);
     }
 }
