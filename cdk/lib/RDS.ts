@@ -56,6 +56,8 @@ export class RDS extends Construct {
 
     this.proxy = new aws_rds.DatabaseProxy(this, "DatabaseProxy", {
       proxyTarget: aws_rds.ProxyTarget.fromCluster(instance),
+      requireTLS: false,
+      debugLogging: true,
       secrets: [instance.secret!],
       vpc: props.vpc,
       securityGroups: this.instance.connections.securityGroups,

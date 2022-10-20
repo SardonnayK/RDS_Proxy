@@ -51,11 +51,15 @@ public static class DBContextInjection
             var connectionString = secret.connectionString(DB_HOST);
 
             services.AddDbContext<ReadDBContext>(options =>
+            {
+                Console.WriteLine("[README] Run before connection is established");
                 options.UseLazyLoadingProxies().UseMySql(
                     connectionString,
                     ServerVersion.AutoDetect(connectionString),
                     x => x.UseNetTopologySuite().EnableRetryOnFailure(2)
-                   ));
+                   ).EnableSensitiveDataLogging();
+                Console.WriteLine("[README] Run After connection is established");
+            });
 
             if (AWSXRayRecorder.IsLambda())
             {
